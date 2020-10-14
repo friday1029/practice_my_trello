@@ -2,7 +2,9 @@
   <div class="list">
     <h2 class="header">{{list.name}}</h2>
     <div class="deck">
-      <Card v-for="card in cards" :card="card" :key="card.id"></Card>
+      <draggable v-model="cards" ghost-class="ghost" group="list" @change="cardMoved">
+        <Card v-for="card in cards" :card="card" :key="card.id"></Card>
+      </draggable>      
       <div class="input-area">
         <button v-if="!editing" class="button bg-gray-400" @click="newCard">新增卡片</button>
         <textarea v-if="editing" v-model="content" class="content"></textarea>
@@ -15,10 +17,12 @@
 <script>
 import Card from 'components/card.vue';
 import Rails from '@rails/ujs';
+import draggable from 'vuedraggable';
+
 export default {
   name: 'List', 
   props: ["list"], 
-  components: { Card },
+  components: { Card, draggable },
   data: function(){
     return {
       content: '',
@@ -50,6 +54,29 @@ export default {
           console.log(err)
         }
       })
+    },
+    cardMoved(event){
+      console.log(event);
+      let evt = event.added || event.moved
+      if (evt){
+        let el = evt.element;
+        let card_id = el.id;
+        let data = new FormData();
+        data.append("card[list_id]",this.list.id)
+        data.append("card[position]",evt.newIndex + 1 )
+        Rails.ajax({
+          url: `/cards/${card_id}/move`,
+          type: 'put',
+          data,
+          dataType: 'json',
+          success: resp => {
+            console.log(resp);
+          },
+          error: err => {
+            console.log(err)
+          }
+        });
+      }
     }
   }
 }
