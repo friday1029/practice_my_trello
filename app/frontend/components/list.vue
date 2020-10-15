@@ -82,8 +82,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .ghost{
+    @apply .border-2 .border-gray-400 .border-dashed .bg-blue-200;
+  }
   .list {
-    @apply .bg-gray-300 .mx-2 .w-64 .px-3 .py-1 .rounded;
+    @apply .bg-gray-300 .mx-2 .w-64 .px-3 .py-1 .rounded .flex-none .h-full;
     .header {
       @apply .px-3 .py-1 .font-bold;
 

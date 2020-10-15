@@ -2,8 +2,6 @@ class ListsController < ApplicationController
   before_action :set_list, only: [:show, :edit, :update, :destroy, :move]
   before_action :authenticate_user!
 
-  # GET /lists
-  # GET /lists.json
   def index
     @lists = current_user.lists.all
   end
@@ -13,23 +11,8 @@ class ListsController < ApplicationController
     render 'show.json'
   end
 
-
-  # GET /lists/1
-  # GET /lists/1.json
-  def show
-  end
-
   # GET /lists/new
-  def new
-    @list = List.new
-  end
 
-  # GET /lists/1/edit
-  def edit
-  end
-
-  # POST /lists
-  # POST /lists.json
   def create
     @list = List.new(list_params)
 
@@ -44,8 +27,6 @@ class ListsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /lists/1
-  # PATCH/PUT /lists/1.json
   def update
     respond_to do |format|
       if @list.update(list_params)
@@ -58,8 +39,6 @@ class ListsController < ApplicationController
     end
   end
 
-  # DELETE /lists/1
-  # DELETE /lists/1.json
   def destroy
     @list.destroy
     respond_to do |format|
