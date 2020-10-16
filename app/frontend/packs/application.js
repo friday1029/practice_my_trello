@@ -24,6 +24,8 @@ import Vue from 'vue/dist/vue.esm';
 import List from 'components/list.vue';
 import Rails from '@rails/ujs';
 import draggable from 'vuedraggable';
+import store from 'stores/list';
+import { mapGetter, mapActions } from 'vuex';
 
 
 document.addEventListener("turbolinks:load", function(event){
@@ -31,11 +33,20 @@ document.addEventListener("turbolinks:load", function(event){
   if (el) {
     new Vue({
       el,
-      data: {
-        lists: []
-      },
+      store, // key 跟 value 相同,可以寫成 store,
       components: { List, draggable },
+      computed: {
+        lists:{
+          get(){
+            return this.$store.state.lists;
+          },
+          set(value){
+            return this.$store.commit("UPDATE_LISTS",value);
+          }
+        }
+      },
       methods: {
+        ...mapActions(["loadList"]),
         listMoved(event){
           let data = new FormData();
           data.append("list[position]",event.moved.newIndex + 1 );
@@ -54,18 +65,7 @@ document.addEventListener("turbolinks:load", function(event){
         }
       },
       beforeMount(){
-        Rails.ajax({
-          url: '/lists.json',
-          type: 'get',
-          dataType: 'json',
-          success: resp => {
-            console.log(resp)
-            this.lists = resp;
-          },
-          error: err => {
-            console.log(err)
-          }
-        })
+        this.loadList();
       }
     });
   }
