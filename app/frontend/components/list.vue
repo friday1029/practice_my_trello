@@ -1,6 +1,11 @@
 <template>
   <div class="list">
-    <h2 class="header">{{list.name}}</h2>
+    <header class="header">
+      <h2>{{list.name}}</h2>
+      <a href="#" @click="deleteList">
+        <i class="fas fa-trash-alt"></i>
+      </a>
+    </header>
     <div class="deck">
       <draggable v-model="cards" ghost-class="ghost" group="list" @change="cardMoved">
         <Card v-for="card in cards" :card="card" :key="card.id"></Card>
@@ -77,6 +82,12 @@ export default {
           }
         });
       }
+    },
+    deleteList(event){
+      event.preventDefault();
+      if ( confirm('確認刪除列表?')){
+        this.$store.dispatch("removeList", this.list.id)
+      }
     }
   }
 }
@@ -89,25 +100,27 @@ export default {
     @apply .bg-gray-300 .mx-2 .w-64 .px-3 .py-1 .rounded .flex-none .h-full;
     .header {
       @apply .px-3 .py-1 .font-bold;
-
     }
     .deck {
       @apply .mt-2;
     }
   }
-.input-area {
-  @apply .mt-2;
-  .content {
-    @apply .w-full .px-2 .py-2 .rounded-sm;
-    &:focus {
-      @apply .outline-none;
+  .input-area {
+    @apply .mt-2;
+    .content {
+      @apply .w-full .px-2 .py-2 .rounded-sm;
+      &:focus {
+        @apply .outline-none;
+      }
+    }
+    .button {
+      @apply .px-3 .py-1 .font-semibold .text-sm .rounded;
+      &:focus {
+        @apply .outline-none;
+      }    
     }
   }
-  .button {
-    @apply .px-3 .py-1 .font-semibold .text-sm .rounded;
-    &:focus {
-      @apply .outline-none;
-    }    
+  header{
+    @apply .flex .justify-between .items-center;    
   }
-}
 </style>
