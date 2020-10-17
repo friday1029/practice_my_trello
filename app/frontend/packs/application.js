@@ -22,6 +22,7 @@ import 'styles'
 //vue
 import Vue from 'vue/dist/vue.esm';
 import List from 'components/list.vue';
+import Newlist from 'components/newlist.vue';
 import Rails from '@rails/ujs';
 import draggable from 'vuedraggable';
 import store from 'stores/list';
@@ -34,7 +35,7 @@ document.addEventListener("turbolinks:load", function(event){
     new Vue({
       el,
       store, // key 跟 value 相同,可以寫成 store,
-      components: { List, draggable },
+      components: { List, Newlist, draggable },
       computed: {
         lists:{
           get(){

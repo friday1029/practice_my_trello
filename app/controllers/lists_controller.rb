@@ -14,7 +14,7 @@ class ListsController < ApplicationController
   # GET /lists/new
 
   def create
-    @list = List.new(list_params)
+    @list = current_user.lists.new(list_params)
 
     respond_to do |format|
       if @list.save

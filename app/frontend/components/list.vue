@@ -4,7 +4,7 @@
     <div class="deck">
       <draggable v-model="cards" ghost-class="ghost" group="list" @change="cardMoved">
         <Card v-for="card in cards" :card="card" :key="card.id"></Card>
-      </draggable>      
+      </draggable>
       <div class="input-area">
         <button v-if="!editing" class="button bg-gray-400" @click="newCard">新增卡片</button>
         <textarea v-if="editing" v-model="content" class="content"></textarea>

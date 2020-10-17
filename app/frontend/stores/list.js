@@ -19,9 +19,28 @@ export default new Vuex.Store({
       let list_index = state.lists.findIndex( list => list.id == card.list_id);
       let card_list = state.lists[list_index].cards.findIndex( item => item.id == card.id );
       state.lists[list_index].cards.splice(card_list,1,card);
+    },
+    ADD_LIST( state, list ){
+      state.lists.push(list)
     }
   },
   actions: {
+    createList({ commit }, list_name ){
+      let data = new FormData();
+      data.append("list[name]", list_name);
+      Rails.ajax({
+        url: '/lists',
+        type: 'post',
+        data,
+        dataType: 'json',
+        success: resp => {
+          commit("ADD_LIST", resp)
+        },
+        error: err => {
+          console.log(err)
+        }
+      });
+    },
     updateCard({commit}, {id, name}){
       let data = new FormData();
       data.append("card[name]",name);
@@ -37,8 +56,6 @@ export default new Vuex.Store({
         error: err => {
           console.log(err);
         }
-
-
       });
     },
     loadList({ commit }){
