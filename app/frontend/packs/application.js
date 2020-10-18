@@ -31,6 +31,7 @@ import { mapGetter, mapActions } from 'vuex';
 
 document.addEventListener("turbolinks:load", function(event){
   let el = document.querySelector("#board");
+  window.$store = store;
   if (el) {
     new Vue({
       el,
