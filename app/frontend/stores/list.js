@@ -23,8 +23,8 @@ export default new Vuex.Store({
     ADD_LIST( state, list ){
       state.lists.push(list)
     },
-    REMOVE_LIST(state, list_id){
-      let list_index = state.lists.findIndex( list => list.id == list_id);
+    REMOVE_LIST(state, remove_list){
+      let list_index = state.lists.findIndex( list => list.id == remove_list.id);
       state.lists.splice(list_index,1);
     }
   },
